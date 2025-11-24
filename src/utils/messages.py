@@ -51,8 +51,7 @@ def generar_mensaje_personalizado(estado, datos=None, mensaje_error=None):
                • Continúa usando nuestro servicio regularmente.
                • Evaluamos periódicamente a nuestros clientes.
                                            
-            Sigue usando el servicio de Calidda y muy pronto podrías calificar 
-            para una oferta crediticia.
+            Sigue usando el servicio de Calidda y muy pronto podrías calificar para una oferta crediticia.
 
             📞 Para más información, comunícate con nuestro centro de atención al cliente al 01-614-9000 opc 3.
             
@@ -74,11 +73,9 @@ def generar_mensaje_personalizado(estado, datos=None, mensaje_error=None):
                • Continúa usando nuestro servicio regularmente.
                • Evaluamos periódicamente a nuestros clientes.
                                            
-            Sigue usando el servicio de Calidda y muy pronto podrías calificar 
-            para una oferta crediticia.
+            Sigue usando el servicio de Calidda y muy pronto podrías calificar para una oferta crediticia.
 
-            📞 Para más información, comunícate con nuestro centro de atención 
-            al cliente al 01-614-9000 opc 3.
+            📞 Para más información, comunícate con nuestro centro de atención al cliente al 01-614-9000 opc 3.
                                            
             ¡Hasta luego!
         """).strip()
