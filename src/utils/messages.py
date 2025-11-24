@@ -25,7 +25,7 @@ def generar_mensaje_personalizado(estado, datos=None, mensaje_error=None):
         mensaje_completo = textwrap.dedent(f"""
             🎉 ¡FELICITACIONES!
                                            
-            Hola {nombre},
+            Hola *{nombre}*,
             ¡Tenemos excelentes noticias para ti!
                                            
             Tienes una línea de crédito APROBADA por:
@@ -42,18 +42,20 @@ def generar_mensaje_personalizado(estado, datos=None, mensaje_error=None):
         mensaje_completo = textwrap.dedent(f"""
             ℹ️ INFORMACIÓN DE TU CONSULTA
                                            
-            Hola {nombre},
+            Hola *{nombre}*,
             Gracias por tu interés en nuestros servicios de crédito.
             En este momento no cuentas con una línea de crédito disponible.
                                            
             💡 ¿Cómo puedo calificar?
-               • Mantén tus pagos al día
-               • Continúa usando nuestro servicio regularmente
-               • Evaluamos periódicamente a nuestros clientes
+               • Mantén tus pagos al día.
+               • Continúa usando nuestro servicio regularmente.
+               • Evaluamos periódicamente a nuestros clientes.
                                            
             Sigue usando el servicio de Calidda y muy pronto podrías calificar 
             para una oferta crediticia.
-                                           
+
+            📞 Para más información, comunícate con nuestro centro de atención al cliente al 01-614-9000 opc 3.
+            
             ¡Hasta luego!
         """).strip()
         
@@ -68,12 +70,15 @@ def generar_mensaje_personalizado(estado, datos=None, mensaje_error=None):
             En este momento no cuentas con una línea de crédito disponible.
                                            
             💡 ¿Cómo puedo calificar?
-               • Mantén tus pagos al día
-               • Continúa usando nuestro servicio regularmente
-               • Evaluamos periódicamente a nuestros clientes
+               • Mantén tus pagos al día.
+               • Continúa usando nuestro servicio regularmente.
+               • Evaluamos periódicamente a nuestros clientes.
                                            
             Sigue usando el servicio de Calidda y muy pronto podrías calificar 
             para una oferta crediticia.
+
+            📞 Para más información, comunícate con nuestro centro de atención 
+            al cliente al 01-614-9000 opc 3.
                                            
             ¡Hasta luego!
         """).strip()
