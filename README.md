@@ -59,8 +59,6 @@ Endpoints importantes
 - `GET /health` — salud del servicio (retorna `{"status":"ok"}`).
 - `POST /query` — body: `{"dni":"<8 dígitos>"}`. Retorna JSON con campos útiles para n8n/Chatwoot:
 	- `client_message` — mensaje con saltos de línea
-	- `client_message_compact` — mensaje en una sola línea (ideal para canales que no soportan saltos)
-	- `client_message_html` — versión HTML (salto = `<br/>`) para sistemas que aceptan HTML
 
 Ejemplo:
 
@@ -83,7 +81,7 @@ Body (ejemplo usando la respuesta del wrapper):
 
 ```json
 {
-	"content": "{{$json.client_message_html}}",
+	"content": "{{$json.client_message}}",
 	"message_type": 1
 }
 ```
