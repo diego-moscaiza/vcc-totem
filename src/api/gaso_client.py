@@ -628,6 +628,7 @@ def consultar_dni_gaso(
         "tieneLineaCredito": tiene_linea,
         "lineaCredito": saldo_numerico,
         "canal": "GASO",
+        "segmento": "gaso",
     }
 
     logger.info(
