@@ -85,10 +85,6 @@ class QueryResponse(BaseModel):
     success: bool
     dni: str
     client_message: Optional[str] = None
-    # Versión compacta (una sola línea) adecuada para plataformas que no manejan bien saltos
-    # client_message_compact: Optional[str] = None
-    # Versión HTML donde los saltos de línea se convierten en <br/> para Chatwoot u otros clientes
-    # client_message_html: Optional[str] = None
     raw_output: Optional[str] = None
     error: Optional[str] = None
     return_code: int
@@ -136,8 +132,6 @@ def query_dni(body: DNIRequest):
         success=(estado == "success" and data is not None),
         dni=dni,
         client_message=mensaje_completo,
-        # client_message_compact=compact,
-        # client_message_html=html,
         raw_output=None,
         error=mensaje_api if mensaje_api else None,
         return_code=0 if estado == "success" else 1,
