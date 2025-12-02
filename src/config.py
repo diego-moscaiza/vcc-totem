@@ -7,21 +7,24 @@ import os
 from dotenv import load_dotenv
 from pathlib import Path
 
+# Obtener la ruta del directorio raíz del proyecto (padre de src/)
+ROOT_DIR = Path(__file__).resolve().parent.parent
+env_path = ROOT_DIR / ".env"
+
 # Cargar variables de entorno desde .env
-env_path = Path('.') / '.env'
 load_dotenv(dotenv_path=env_path)
 
 # Verificar que existe el archivo .env
 if not env_path.exists():
     raise FileNotFoundError(
-        "❌ Archivo .env no encontrado.\n"
+        f"❌ Archivo .env no encontrado en {env_path}.\n"
         "   Copia .env.example a .env y configura tus credenciales:\n"
         "   cp .env.example .env"
     )
 
 # ========== CREDENCIALES ==========
-USUARIO = os.getenv('CALIDDA_USUARIO')
-PASSWORD = os.getenv('CALIDDA_PASSWORD')
+USUARIO = os.getenv("CALIDDA_USUARIO")
+PASSWORD = os.getenv("CALIDDA_PASSWORD")
 
 if not USUARIO or not PASSWORD:
     raise ValueError(
@@ -30,55 +33,59 @@ if not USUARIO or not PASSWORD:
     )
 
 # ========== URLs ==========
-BASE_URL = os.getenv('BASE_URL', 'https://appweb.calidda.com.pe')
-LOGIN_API = BASE_URL + os.getenv('LOGIN_API', '/FNB_Services/api/Seguridad/autenticar')
-CONSULTA_API = BASE_URL + os.getenv('CONSULTA_API', '/FNB_Services/api/financiamiento/lineaCredito')
+BASE_URL = os.getenv("BASE_URL", "https://appweb.calidda.com.pe")
+LOGIN_API = BASE_URL + os.getenv("LOGIN_API", "/FNB_Services/api/Seguridad/autenticar")
+CONSULTA_API = BASE_URL + os.getenv(
+    "CONSULTA_API", "/FNB_Services/api/financiamiento/lineaCredito"
+)
 
 # ========== CONFIGURACIÓN DE SEGURIDAD ==========
-DELAY_MIN = float(os.getenv('DELAY_MIN', '10'))
-DELAY_MAX = float(os.getenv('DELAY_MAX', '207'))
-TIMEOUT = int(os.getenv('TIMEOUT', '300'))  # Tiempo máximo para consultas exitosas
-QUICK_TIMEOUT = int(os.getenv('QUICK_TIMEOUT', '30'))  # Tiempo para verificación rápida
-MAX_CONSULTAS_POR_SESION = int(os.getenv('MAX_CONSULTAS_POR_SESION', '50'))
+DELAY_MIN = float(os.getenv("DELAY_MIN", "10"))
+DELAY_MAX = float(os.getenv("DELAY_MAX", "207"))
+TIMEOUT = int(os.getenv("TIMEOUT", "300"))  # Tiempo máximo para consultas exitosas
+QUICK_TIMEOUT = int(os.getenv("QUICK_TIMEOUT", "30"))  # Tiempo para verificación rápida
+MAX_CONSULTAS_POR_SESION = int(os.getenv("MAX_CONSULTAS_POR_SESION", "50"))
 
 # ========== DIRECTORIOS ==========
-OUTPUT_DIR = os.getenv('OUTPUT_DIR', 'consultas_credito')
-DNIS_FILE = os.getenv('DNIS_FILE', 'lista_dnis.txt')
+OUTPUT_DIR = os.getenv("OUTPUT_DIR", "consultas_credito")
+DNIS_FILE = os.getenv("DNIS_FILE", "lista_dnis.txt")
 
 # ========== LOGGING ==========
-LOG_LEVEL = os.getenv('LOG_LEVEL', 'INFO')
-LOG_FILE = os.getenv('LOG_FILE', 'logs/extractor.log')
+LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
+LOG_FILE = os.getenv("LOG_FILE", "logs/extractor.log")
 
-# Crear directorio de logs si no existe
-Path('logs').mkdir(exist_ok=True)
+# Crear directorio de logs si no existe (relativo al ROOT_DIR)
+(ROOT_DIR / "logs").mkdir(exist_ok=True)
+
 
 # ========== VALIDACIÓN ==========
 def validar_configuracion():
     """Validar que la configuración es correcta"""
     errores = []
-    
+
     if not USUARIO:
         errores.append("CALIDDA_USUARIO no configurado")
-    
+
     if not PASSWORD:
         errores.append("CALIDDA_PASSWORD no configurado")
-    
+
     if DELAY_MIN > DELAY_MAX:
         errores.append("DELAY_MIN no puede ser mayor que DELAY_MAX")
-    
+
     if TIMEOUT < 5:
         errores.append("TIMEOUT debe ser al menos 5 segundos")
-    
+
     if errores:
         raise ValueError(
-            "❌ Errores de configuración:\n" +
-            "\n".join(f"   - {e}" for e in errores)
+            "❌ Errores de configuración:\n" + "\n".join(f"   - {e}" for e in errores)
         )
-    
+
     return True
+
 
 # Validar al importar
 validar_configuracion()
+
 
 # Función para mostrar configuración (sin credenciales)
 def mostrar_config():
@@ -99,4 +106,3 @@ def mostrar_config():
     print(f"Log file: {LOG_FILE}")
     print("=" * 70)
     print()
-
