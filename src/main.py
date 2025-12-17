@@ -10,12 +10,6 @@ from pathlib import Path
 
 import sys
 
-# Agregar el directorio src al path de Python
-root_dir = Path(__file__).parent.parent
-src_dir = Path(__file__).parent
-sys.path.insert(0, str(root_dir))
-sys.path.insert(0, str(src_dir))
-
 from config import (
     DELAY_MIN,
     DELAY_MAX,
@@ -27,6 +21,12 @@ from config import (
 from api.auth import login
 from api.client import consultar_dni
 from utils.messages import mostrar_resultado
+
+# Agregar el directorio src al path de Python
+root_dir = Path(__file__).parent.parent
+src_dir = Path(__file__).parent
+sys.path.insert(0, str(root_dir))
+sys.path.insert(0, str(src_dir))
 
 # ========== CONFIGURAR LOGGING ==========
 # Asegurar que la ruta del log sea relativa al directorio raíz
