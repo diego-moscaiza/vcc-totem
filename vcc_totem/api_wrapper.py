@@ -1,5 +1,6 @@
 import logging
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 import uvicorn
 
@@ -11,6 +12,7 @@ from vcc_totem.core.query import (
 )
 from vcc_totem.core.messages import format_response
 from vcc_totem.clients.gaso import check_connection
+from vcc_totem.clients.session import get_session
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -38,19 +40,31 @@ class QueryResponse(BaseModel):
 
 @app.get("/health")
 def health():
-    return {
-        "status": "ok",
-    }
+    fnb_ok = False
+    gaso_ok = False
 
+    try:
+        get_session()
+        fnb_ok = True
+    except Exception as e:
+        logger.error(f"FNB health check failed: {e}")
 
-@app.get("/health/gaso")
-def health_gaso():
-    connected = check_connection()
-    return {
-        "status": "ok" if connected else "error",
-        "channel": "gaso",
-        "connected": connected,
-    }
+    try:
+        gaso_ok = check_connection()
+    except Exception as e:
+        logger.error(f"GASO health check failed: {e}")
+
+    all_ok = fnb_ok and gaso_ok
+    status_code = 200 if all_ok else 503
+
+    return JSONResponse(
+        status_code=status_code,
+        content={
+            "status": "ok" if all_ok else "degraded",
+            "fnb": "ok" if fnb_ok else "error",
+            "gaso": "ok" if gaso_ok else "error",
+        },
+    )
 
 
 @app.post("/query", response_model=QueryResponse)
