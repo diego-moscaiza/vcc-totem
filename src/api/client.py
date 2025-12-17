@@ -4,7 +4,7 @@ Funciones de consulta de clientes en la API de Calidda
 
 import logging
 import requests
-from config import CONSULTA_API, TIMEOUT, QUICK_TIMEOUT
+from config import CONSULTA_API, TIMEOUT
 
 logger = logging.getLogger(__name__)
 
@@ -42,7 +42,7 @@ def consultar_dni(session, dni, id_aliado):
                         logger.info(f"DNI {dni} no encontrado (respuesta rápida)")
                         return (
                             None,
-                            f'invalid: {data.get("message")}',
+                            f"invalid: {data.get('message')}",
                             data.get("message"),
                         )
 

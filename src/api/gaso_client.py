@@ -22,9 +22,7 @@ logger = logging.getLogger(__name__)
 class PowerBIConfig:
     """Configuración de conexión a Power BI"""
 
-    api_url: str = (
-        "https://wabi-south-central-us-api.analysis.windows.net/public/reports/querydata"
-    )
+    api_url: str = "https://wabi-south-central-us-api.analysis.windows.net/public/reports/querydata"
     resource_key: str = "96e10df6-51ec-4855-90c0-46efab054e4a"
     dataset_id: str = "4570cf7b-a48f-440e-8f93-226828a3a243"
     report_id: str = "2f8ea0ef-30a2-442c-af53-b3fc7bfa1027"

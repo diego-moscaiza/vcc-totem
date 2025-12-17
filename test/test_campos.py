@@ -27,9 +27,9 @@ def probar_campo(nombre_campo, es_columna=False):
     """Probar un campo específico"""
     dni = "44076453"
 
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"Probando: {nombre_campo} ({'COLUMNA' if es_columna else 'MEDIDA'})")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
 
     try:
         # Usar el payload apropiado

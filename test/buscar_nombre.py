@@ -7,17 +7,17 @@ Probar variaciones comunes
 import sys
 from pathlib import Path
 
-# Configurar paths
-ROOT = Path(__file__).parent
-SRC = ROOT / "src"
-sys.path.insert(0, str(ROOT))
-sys.path.insert(0, str(SRC))
-
 from src.api.gaso_client import (
     _build_query_payload,
     _execute_query,
     _extract_value,
 )
+
+# Configurar paths
+ROOT = Path(__file__).parent
+SRC = ROOT / "src"
+sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(SRC))
 
 
 def probar_alias(alias):

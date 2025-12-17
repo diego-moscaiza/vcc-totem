@@ -4,7 +4,7 @@ Implementan el patrón Adapter para desacoplar los clientes del servicio.
 """
 
 import logging
-from typing import Tuple, Dict, Any, Optional
+from typing import Dict, Optional
 
 from .query_service import (
     ResultadoConsulta,
