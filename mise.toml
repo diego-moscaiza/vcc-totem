@@ -5,3 +5,11 @@ python.uv_venv_auto = true
 uv = "0.9.17"
 python = "3.14.2"
 ruff = "0.14.9"
+
+[tasks.sync]
+description = "Install all dependencies"
+run = "uv sync --all-packages --extra dev"
+
+[tasks.outdated]
+description = "List outdated dependencies"
+run = "uv pip list --outdated"
