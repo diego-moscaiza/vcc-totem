@@ -8,9 +8,7 @@ import random
 import time
 from pathlib import Path
 
-import sys
-
-from config import (
+from vcc_totem.config import (
     DELAY_MIN,
     DELAY_MAX,
     MAX_CONSULTAS_POR_SESION,
@@ -18,15 +16,12 @@ from config import (
     LOG_LEVEL,
     mostrar_config,
 )
-from api.auth import login
-from api.client import consultar_dni
-from utils.messages import mostrar_resultado
+from vcc_totem.api.auth import login
+from vcc_totem.api.client import consultar_dni
+from vcc_totem.utils.messages import mostrar_resultado
 
-# Agregar el directorio src al path de Python
+# Directorio raíz del proyecto
 root_dir = Path(__file__).parent.parent
-src_dir = Path(__file__).parent
-sys.path.insert(0, str(root_dir))
-sys.path.insert(0, str(src_dir))
 
 # ========== CONFIGURAR LOGGING ==========
 # Asegurar que la ruta del log sea relativa al directorio raíz

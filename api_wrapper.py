@@ -33,10 +33,10 @@ import threading
 import logging
 
 # Importar componentes internos
-from api.auth import login
-from api.client import consultar_dni
-from api.gaso_client import consultar_dni_gaso, verificar_conexion_gaso
-from services import (
+from vcc_totem.api.auth import login
+from vcc_totem.api.client import consultar_dni
+from vcc_totem.api.gaso_client import consultar_dni_gaso, verificar_conexion_gaso
+from vcc_totem.services import (
     QueryService,
     Canal,
     EstadoConsulta,

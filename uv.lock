@@ -676,7 +676,7 @@ wheels = [
 [[package]]
 name = "vcc-totem"
 version = "0.0.1"
-source = { virtual = "." }
+source = { editable = "." }
 dependencies = [
     { name = "fastapi" },
     { name = "pyjwt" },

@@ -6,7 +6,7 @@ import jwt
 import requests
 import logging
 
-from config import USUARIO, PASSWORD, LOGIN_API, TIMEOUT
+from vcc_totem.config import USUARIO, PASSWORD, LOGIN_API, TIMEOUT
 
 logger = logging.getLogger(__name__)
 

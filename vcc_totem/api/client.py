@@ -4,7 +4,7 @@ Funciones de consulta de clientes en la API de Calidda
 
 import logging
 import requests
-from config import CONSULTA_API, TIMEOUT
+from vcc_totem.config import CONSULTA_API, TIMEOUT
 
 logger = logging.getLogger(__name__)
 

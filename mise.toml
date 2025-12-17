@@ -16,4 +16,4 @@ run = "uv pip list --outdated"
 
 [tasks.format]
 description = "Run code checks"
-run = ["ruff format", "ruff check --fix src"]
+run = ["ruff format", "ruff check --fix vcc_totem"]
