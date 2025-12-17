@@ -1,25 +1,13 @@
-# Archivos de credenciales
 .env
 
-# Archivos de resultados
+# Runtime
+*.log
+__pycache__/
+venv/
+
+# Data / outputs
 consultas_credito/
 lista_dnis.txt
 
-# Logs
-*.log
-
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-venv/
-env/
-*.egg-info/
-
-# IDEs
+# Editors
 .vscode/
-.idea/
-*.swp
-*.swo
