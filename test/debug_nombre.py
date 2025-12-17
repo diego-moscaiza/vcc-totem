@@ -25,9 +25,9 @@ def debug_nombre():
     """Consultar Nombre y mostrar la estructura completa de la respuesta"""
     dni = "44076453"
 
-    print(f"\n{'='*70}")
+    print(f"\n{'=' * 70}")
     print(f"DEBUG: Consultando Nombre para DNI {dni}")
-    print(f"{'='*70}\n")
+    print(f"{'=' * 70}\n")
 
     try:
         payload = _build_query_payload(dni, "Nombre", VISUAL_IDS.nombre)
@@ -42,9 +42,9 @@ def debug_nombre():
             print(json.dumps(response, indent=2, ensure_ascii=False))
 
             # Análisis
-            print(f"\n{'='*70}")
+            print(f"\n{'=' * 70}")
             print("ANÁLISIS DE ESTRUCTURA:")
-            print(f"{'='*70}\n")
+            print(f"{'=' * 70}\n")
 
             results = response.get("results", [])
             if results:

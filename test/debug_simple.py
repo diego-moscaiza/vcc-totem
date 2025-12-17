@@ -29,7 +29,7 @@ if response:
         vd = ds["ValueDicts"]
         print(f"ValueDicts keys: {list(vd.keys())}")
         if "D0" in vd:
-            print(f'ValueDicts.D0: {vd["D0"]}')
+            print(f"ValueDicts.D0: {vd['D0']}")
 
     if "PH" in ds:
         ph = ds["PH"][0]["DM0"]

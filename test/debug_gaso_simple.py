@@ -33,9 +33,9 @@ print("=" * 80)
 # Llamar a la función principal
 datos, estado, error = consultar_dni_gaso(dni)
 
-print(f"\n{'='*80}")
+print(f"\n{'=' * 80}")
 print(f"RESULTADO:")
-print(f"{'='*80}")
+print(f"{'=' * 80}")
 print(f"Estado: {estado}")
 print(f"Error: {error}")
 if datos:

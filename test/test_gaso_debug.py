@@ -28,9 +28,9 @@ from src.api.gaso_client import (
 
 def test_nombre(dni: str = "44076451"):
     """Probar extracción del nombre"""
-    print(f"\n{'='*70}")
+    print(f"\n{'=' * 70}")
     print(f"PROBANDO NOMBRE PARA DNI: {dni}")
-    print(f"{'='*70}")
+    print(f"{'=' * 70}")
 
     # Construcción de payload para columna
     print(f"\n1. Construyendo payload para Nombre (como COLUMNA)...")
@@ -69,9 +69,9 @@ def test_nombre(dni: str = "44076451"):
 
 def test_saldo(dni: str = "44076451"):
     """Probar extracción del saldo"""
-    print(f"\n{'='*70}")
+    print(f"\n{'=' * 70}")
     print(f"PROBANDO SALDO PARA DNI: {dni}")
-    print(f"{'='*70}")
+    print(f"{'=' * 70}")
 
     # Construcción de payload para medida
     print(f"\n1. Construyendo payload para Saldo (como MEDIDA)...")
@@ -108,9 +108,9 @@ if __name__ == "__main__":
     # Luego probar nombre (columna, que no funciona)
     nombre = test_nombre(dni)
 
-    print(f"\n{'='*70}")
+    print(f"\n{'=' * 70}")
     print(f"RESUMEN:")
-    print(f"{'='*70}")
+    print(f"{'=' * 70}")
     print(f"DNI: {dni}")
     print(f"Saldo: {saldo}")
     print(f"Nombre: {nombre}")
