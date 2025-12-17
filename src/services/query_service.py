@@ -9,7 +9,7 @@ Principios:
 """
 
 import logging
-from typing import Optional, List, Callable, Tuple, Dict, Any
+from typing import Optional, List, Callable, Dict, Any
 from dataclasses import dataclass, field
 from enum import Enum
 

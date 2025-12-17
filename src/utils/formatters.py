@@ -23,7 +23,7 @@ def procesar_direccion(direccion):
 
         return direccion_norm
 
-    except Exception as e:
+    except Exception:
         return direccion  # Devolver la dirección original en caso de error
 
 

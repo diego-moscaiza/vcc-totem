@@ -9,7 +9,6 @@ import time
 from pathlib import Path
 
 import sys
-from pathlib import Path
 
 # Agregar el directorio src al path de Python
 root_dir = Path(__file__).parent.parent
@@ -63,7 +62,7 @@ def main():
         logger.error("No se pudo iniciar sesión")
         return
 
-    print(f"\n✅ Sesión iniciada correctamente\n")
+    print("\n✅ Sesión iniciada correctamente\n")
     consultas_sesion = 0
 
     # Bucle principal de consultas
@@ -117,7 +116,7 @@ def main():
         # ========== CASO 4: RATE LIMIT ==========
         elif estado == "rate_limit":
             logger.warning("RATE LIMIT - Esperando 60 segundos...")
-            print(f"⚠️ RATE LIMIT - Esperando 60s...")
+            print("⚠️ RATE LIMIT - Esperando 60s...")
             time.sleep(60)
             continue
 

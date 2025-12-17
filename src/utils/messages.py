@@ -153,7 +153,7 @@ def mostrar_resultado(dni, data, estado="success", mensaje_api=None):
 
         return True, estado_dni, tiene_oferta  # ← Retornando tiene_oferta también
 
-    except Exception as e:
+    except Exception:
         return (
             False,
             estado_dni,
