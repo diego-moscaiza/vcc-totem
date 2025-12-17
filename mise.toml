@@ -13,3 +13,7 @@ run = "uv sync --all-packages --extra dev"
 [tasks.outdated]
 description = "List outdated dependencies"
 run = "uv pip list --outdated"
+
+[tasks.format]
+description = "Run code checks"
+run = ["ruff format", "ruff check --fix src"]
