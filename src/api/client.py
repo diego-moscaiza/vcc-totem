@@ -42,7 +42,7 @@ def consultar_dni(session, dni, id_aliado):
                         logger.info(f"DNI {dni} no encontrado (respuesta rápida)")
                         return (
                             None,
-                            f'invalid: {data.get("message")}',
+                            f"invalid: {data.get('message')}",
                             data.get("message"),
                         )
 
