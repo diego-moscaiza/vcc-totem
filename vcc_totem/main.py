@@ -1,32 +1,25 @@
-#!/usr/bin/env python3
 """
-Consulta líneas de crédito en portal Calidda usando credenciales de FNB
+Usa este comando para buscar por DNI:
+uv run vcc_totem/main.py -- 12345678        (equivalente a python run vcc_totem/main.py 12345678)
+
+Si deseas una respuesta en formato JSON, agrega --json:
+uv run vcc_totem/main.py -- 12345678 --json
+
+O solo ejecútalo para usar el modo interactivo:
+uv run vcc_totem/main.py
 """
 
 import logging
-import random
-import time
 from pathlib import Path
 
-from vcc_totem.config import (
-    DELAY_MIN,
-    DELAY_MAX,
-    MAX_CONSULTAS_POR_SESION,
-    LOG_FILE,
-    LOG_LEVEL,
-    mostrar_config,
-)
-from vcc_totem.api.auth import login
-from vcc_totem.api.client import consultar_dni
-from vcc_totem.utils.messages import mostrar_resultado
+import click
 
-# Directorio raíz del proyecto
-root_dir = Path(__file__).parent.parent
+from vcc_totem.config import LOG_FILE, LOG_LEVEL
+from vcc_totem.core.query import query_with_fallback, validate_dni
+from vcc_totem.core.messages import format_response
 
-# ========== CONFIGURAR LOGGING ==========
-# Asegurar que la ruta del log sea relativa al directorio raíz
-log_path = Path(root_dir) / LOG_FILE
-
+log_path = Path(__file__).parent / LOG_FILE
+log_path.parent.mkdir(parents=True, exist_ok=True)
 logging.basicConfig(
     level=getattr(logging, LOG_LEVEL),
     format="%(asctime)s - %(levelname)s - %(message)s",
@@ -35,109 +28,59 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-def main():
-    """Función principal"""
-    print("\n")
-    print("🚀 EXTRACTOR DE LÍNEAS DE CRÉDITO - CALIDDA")
-    print("   Versión segura con credenciales en .env")
-    print()
-
-    # Mostrar configuración
-    mostrar_config()
-
-    # Login inicial
-    print("=" * 70)
-    print("🔐 INICIANDO SESIÓN")
-    print("=" * 70)
-    print()
-
-    session, id_aliado = login()
-
-    if not session:
-        logger.error("No se pudo iniciar sesión")
+@click.command()
+@click.argument("dni", required=False)
+@click.option("--json", is_flag=True, help="Salida en formato JSON")
+def main(dni, json):
+    # Single query mode
+    if dni:
+        query_dni(dni, json)
         return
 
-    print("\n✅ Sesión iniciada correctamente\n")
-    consultas_sesion = 0
-
-    # Bucle principal de consultas
+    # Interactive mode
+    click.echo("Ingrese DNI (o 'q' para salir)\n")
     while True:
-        dni = input("\nIngrese el DNI a consultar (o 'q' para salir): ").strip()
-
+        dni = click.prompt("DNI", type=str).strip()
         if dni.lower() == "q":
-            print("\n✅ Programa finalizado")
-            return
+            break
+        query_dni(dni, json)
+        click.echo()
 
-        # Validar que sea un DNI válido (8 dígitos)
-        if not dni.isdigit() or len(dni) != 8:
-            print("❌ DNI inválido. Debe contener 8 dígitos numéricos")
-            continue
 
-        # Reconectar si es necesario
-        if consultas_sesion >= MAX_CONSULTAS_POR_SESION:
-            logger.info("Reconectando...")
-            time.sleep(random.uniform(10, 20))
-            session, id_aliado = login()
-            if not session:
-                logger.error("Error al reconectar")
-                continue
-            consultas_sesion = 0
+def query_dni(dni, as_json):
+    """Query a single DNI."""
+    try:
+        dni = validate_dni(dni)
+    except ValueError as e:
+        click.secho(f"DNI inválido: {e}", fg="red", err=True)
+        return
 
-        print("\n" + "=" * 70)
-        print("📋 PROCESANDO CONSULTA")
-        print("=" * 70)
-        print(f"\nConsultando DNI: {dni}")
+    result = query_with_fallback(dni)
+    message, has_offer = format_response(result)
 
-        data, estado, mensaje_api = consultar_dni(session, dni, id_aliado)
-        consultas_sesion += 1
+    if as_json:
+        import json
 
-        # ========== CASO 1: DNI VÁLIDO CON DATOS ==========
-        if estado == "success" and data and data.get("id"):
-            mostrar_resultado(dni, data, estado, mensaje_api)
+        response = {
+            "success": result.success,
+            "dni": result.dni,
+            "channel": result.channel,
+            "has_offer": result.has_offer,
+        }
+        if result.data:
+            response["data"] = result.data
+        if result.error_message:
+            response["error"] = result.error_message
 
-        # ========== CASO 2: DNI NO VÁLIDO O SIN DATOS ==========
-        elif estado.startswith("invalid:"):
-            mostrar_resultado(dni, data, estado, mensaje_api)
-
-        # ========== CASO 3: SESIÓN EXPIRADA ==========
-        elif estado == "expired":
-            logger.warning("Sesión expirada - Reconectando...")
-            print("⚠️ Sesión expirada - Reconectando...")
-            session, id_aliado = login()
-            if session:
-                data, estado, mensaje_api = consultar_dni(session, dni, id_aliado)
-                mostrar_resultado(dni, data, estado, mensaje_api)
-
-        # ========== CASO 4: RATE LIMIT ==========
-        elif estado == "rate_limit":
-            logger.warning("RATE LIMIT - Esperando 60 segundos...")
-            print("⚠️ RATE LIMIT - Esperando 60s...")
-            time.sleep(60)
-            continue
-
-        # ========== CASO 5: BLOQUEADO ==========
-        elif estado == "blocked":
-            logger.error("ACCESO BLOQUEADO")
-            print("🚨 ACCESO BLOQUEADO")
-            print("El programa se cerrará...")
-            return
-
-        # ========== CASO 6: TIMEOUT ==========
-        elif estado == "timeout":
-            print(f"\n❌ Error: {mensaje_api}")
-            print("Por favor, inténtelo nuevamente.")
-
-        # Delay entre consultas
-        delay = random.uniform(DELAY_MIN, DELAY_MAX)
-        print(f"\nEsperando {delay:.1f}s antes de la siguiente consulta...")
+        click.echo(json.dumps(response, indent=2))
+    else:
+        click.echo(f"\n{message}")
+        color = "green" if has_offer else "yellow"
+        click.secho(f"Oferta: {'Sí' if has_offer else 'No'}\n", fg=color)
 
 
 if __name__ == "__main__":
     try:
         main()
     except KeyboardInterrupt:
-        print("\n\n⚠️ Proceso interrumpido por el usuario")
-        logger.warning("Proceso interrumpido por el usuario")
-    except Exception as e:
-        print(f"\n❌ Error fatal: {e}")
-        logger.exception("Error fatal en ejecución")
+        click.echo("\n")
